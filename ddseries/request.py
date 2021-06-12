@@ -4,7 +4,8 @@ import os
 import requests
 import json
 
-def body(queries = []):
+
+def body(queries=[]):
     result = {}
 
     for i, query in enumerate(queries):
@@ -36,6 +37,18 @@ def exec(app_key, api_key, queries):
     if response.status_code != 200:
         print(response.content)
 
-        return
+        return json.loads(response.content)
 
     return json.loads(response.content)
+
+
+def exec_with_retry(app_key, api_key, queries, times):
+    if times <= 0:
+        return {}
+
+    result = exec(app_key, api_key, queries)
+
+    if len(result.get('responses')) > 0:
+        return result
+
+    exec_with_retry(app_key, api_key, queries, times - 1)

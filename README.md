@@ -10,7 +10,7 @@ The information received with this API is provided on an "as is" basis with no g
 ### Usage
 
 ```python
-""" set DATADOG_HOST, DATADOG_APP_KEY and DATADOG_API_KEY
+# set DATADOG_HOST, DATADOG_APP_KEY and DATADOG_API_KEY
 
 import dd-series-py
 
