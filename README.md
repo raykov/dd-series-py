@@ -1,6 +1,9 @@
 # DataDog series (python)
 Undocumented DataDog features
 
+Param `interval` in the request helps us to get result calculated for provided time period (in seconds).
+Passing `interval: 60` helps us to get "per minute" representation of the metrics. 
+
 ## Disclaimer, or, Use at your own risk
 
 This is **NOT** an official API from DataDog. You will not find any documentation regarding this code and usage.
@@ -12,17 +15,39 @@ The information received with this API is provided on an "as is" basis with no g
 ```python
 # set DATADOG_HOST, DATADOG_APP_KEY and DATADOG_API_KEY
 
-import dd-series-py
+import ddseries
 
-data = make_request(
+data = request.exec(
+           app_key,
+           api_key,
            [
                    {
-                       'q': 'sum:trace.rack.request.hits{service:my-service}.as_count()',
-                       'from': '1623483121147',
-                       'to': '1623491620230',
+                       'q': 'sum:trace.rack.request.hits{service:my-lovely-service}.as_count()',
+                       'from': '1619954820000',
+                       'to': '1619958660000',
                        'interval': 60
                    }
            ]
+       )
+```
+
+or with retry
+
+```python
+import ddseries
+
+data = request.exec_with_retry(
+           app_key,
+           api_key,
+           [
+                   {
+                       'q': 'sum:trace.rack.request.hits{service:my-lovely-service}.as_count()',
+                       'from': '1619954820000',
+                       'to': '1619958660000',
+                       'interval': 60
+                   }
+           ],
+           3
        )
 ```
 
