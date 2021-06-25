@@ -48,7 +48,10 @@ def exec_with_retry(app_key, api_key, queries, times):
 
     result = exec(app_key, api_key, queries)
 
-    if len(result.get('responses')) > 0:
+    if result.get('errors') and 'Resource Exhausted' in json.dumps(result):
+        return result
+
+    if result.get('responses') and len(result.get('responses')) > 0:
         return result
 
     exec_with_retry(app_key, api_key, queries, times - 1)
